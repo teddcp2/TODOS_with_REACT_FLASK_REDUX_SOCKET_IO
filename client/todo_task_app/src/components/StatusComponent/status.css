@@ -1,0 +1,7 @@
+.ui.statistics{
+    flex-direction: column;
+    position: fixed;
+    left: 10vw;
+    justify-content: space-around;
+
+}

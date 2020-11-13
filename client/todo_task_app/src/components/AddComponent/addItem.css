@@ -1,0 +1,7 @@
+.ui.fluid.action.input{
+    position: sticky;
+    top: 0;
+    margin: 15px;
+    z-index: 100;
+    border-bottom: 2px solid #eee;
+}
