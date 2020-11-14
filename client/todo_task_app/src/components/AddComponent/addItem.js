@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
-import { socket } from "../../App";
-import { LoaderContext } from "../../context";
+import { connect } from "react-redux";
+import { addItem, changeLoader } from "../../actions";
+// import { LoaderContext } from "../../context";
 import "./addItem.css";
 
 import Dropdown from "./dropdown";
@@ -8,7 +9,7 @@ import Dropdown from "./dropdown";
 const AddItem = (props) => {
   let [text, setText] = useState("");
   let [type, setValue] = useState("select one");
-  let loader = useContext(LoaderContext);
+  // let loader = useContext(LoaderContext);
 
   const storeValue = (e) => {
     // console.log(e.target);
@@ -20,9 +21,10 @@ const AddItem = (props) => {
   };
 
   const addItem = (e) => {
-    loader.setLoaderText("Adding one Data...");
-    loader.setLoaderValue(!loader.loaderValue);
-    socket.emit("AddRecord", { value: text, type: type });
+    // loader.setLoaderText("Adding one Data...");
+    // loader.setLoaderValue(!loader.loaderValue);
+    // socket.emit("AddRecord", { value: text, type: type });
+    props.addItem(text, type);
     setText("");
     setValue("select");
   };
@@ -43,4 +45,11 @@ const AddItem = (props) => {
   );
 };
 
-export default AddItem;
+const mapStateToProps = (store) => {
+  return { loader: { ...store.loader } };
+};
+
+export default connect(mapStateToProps, {
+  addItem,
+  changeLoader,
+})(AddItem);

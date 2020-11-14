@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { LoaderContext } from "../../context";
+// import { LoaderContext } from "../../context";
+import { connect } from "react-redux";
 
 const Loader = (props) => {
   let content = "";
-  let context = useContext(LoaderContext);
+  // let context = useContext(LoaderContext);
 
   switch (props.type) {
     case "cards":
@@ -47,8 +48,8 @@ const Loader = (props) => {
 
     case "mainLoader":
       content = (
-        <div class="ui active inverted dimmer">
-          <div class="ui large text loader">{context.loaderText}</div>
+        <div className="ui active inverted dimmer">
+          <div className="ui large text loader">{props.text}</div>
         </div>
       );
       break;
@@ -67,4 +68,10 @@ const Loader = (props) => {
   return content;
 };
 
-export default Loader;
+const mapStateToProps = (store) => {
+  let data = { ...store.loader };
+  // console.log("data", store);
+  return { data };
+};
+
+export default connect(mapStateToProps, {})(Loader);

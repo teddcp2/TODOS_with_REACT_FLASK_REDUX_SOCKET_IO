@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import MyItem from "./ToDOItem";
 
 const MyItems = ({ items }) => {
@@ -6,4 +7,10 @@ const MyItems = ({ items }) => {
   return <div className="ui three stackable cards">{contents}</div>;
 };
 
-export default MyItems;
+const mapStateToProps = (store) => {
+  let data = [...store.data];
+  // console.log("data", store);
+  return { items: data };
+};
+
+export default connect(mapStateToProps, {})(MyItems);

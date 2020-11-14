@@ -37,7 +37,7 @@ def get_counts():
 @socketio.on('connect')
 def test_connect():
     print('CONNECT EVENT happened...')
-    emit('success', {'data': 'Connected'})
+    emit('Success', {'data': 'Connected'})
 
 
 @socketio.on('FetchRecords')
@@ -49,16 +49,21 @@ def fetch_all_records():
     for i in records:
         data.append(i)
 
-    records = todo.find({'delete': 'yes'}, {'_id': 0})
-    for i in records:
-        data.append(i)
+    # records = todo.find({'delete': 'yes'}, {'_id': 0})
+    # for i in records:
+    #     data.append(i)
 
     response = {'code': 200, 'records': data,
                 'Counts': get_counts(), 'statusCounts': get_status_counts()}
-    emit('sendingRecords', response, broadcast=True)
+    emit('SendingRecords', response, broadcast=True)
 
+
+def notify(text):
+    emit('Notify', text, broadcast=True)
 
 # ["AddRecord",{"value":"Paris","type":"travelling"}]
+
+
 @socketio.on('AddRecord')
 def add_record(data):
     # print('adding', data)
@@ -66,6 +71,7 @@ def add_record(data):
     todo.insert_one(
         {'item_id': cnt+1, 'name': data['value'], 'type': data['type'], 'status': 'new', 'delete': 'no'})
     # socketio.emit('ChangeData')
+    notify({'response': 'One Data Added'})
     emit('ChangeData', broadcast=True)
 
 
@@ -77,16 +83,18 @@ def mark_complete(data):
                     '$set': {'status': 'completed'}})
     # {'item_id': cnt+1, 'name': data['value'], 'type': data['type'], 'status': 'new', 'delete': 'no'})
     emit('ChangeData', broadcast=True)
+    notify({'response': 'One Item is completed'})
 
 
 @socketio.on('MarkAsProgress')
 def mark_progress(data):
-    # print('adding', data)
+    print('adding', data)
     # cnt = todo.find_one()
     todo.update_one({'item_id': data['item_id']}, {
                     '$set': {'status': 'progressing'}})
     # {'item_id': cnt+1, 'name': data['value'], 'type': data['type'], 'status': 'new', 'delete': 'no'})
     emit('ChangeData', broadcast=True)
+    notify({'response': 'one Item is started..'})
 
 
 @socketio.on('MarkAsDelete')
@@ -96,6 +104,7 @@ def mark_delete(data):
     todo.update_one({'item_id': data['item_id']}, {'$set': {'delete': 'yes'}})
     # {'item_id': cnt+1, 'name': data['value'], 'type': data['type'], 'status': 'new', 'delete': 'no'})
     emit('ChangeData', broadcast=True)
+    notify({'response': 'One Item is deleted..'})
 
 
 if __name__ == '__main__':

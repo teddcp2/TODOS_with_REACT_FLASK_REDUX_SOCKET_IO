@@ -1,0 +1,12 @@
+.Toastify__toast--success {
+    background-color: #fdfdfd !important;
+    border: 4px solid #ff9867;
+    color: #e41655 !important;
+    font-size: 1.2rem;
+    /* font-weight: 500; */
+
+}
+
+.Toastify__close-button {
+    color: #e41655 !important;
+}

@@ -1,9 +1,10 @@
 import React, { Fragment, useContext } from "react";
-import { socket } from "../../App";
+import { connect } from "react-redux";
+import { change_card_status_socket } from "../../actions";
 import { LoaderContext } from "../../context";
 import "./todo.css";
 
-const MyItem = ({ item }) => {
+const MyItem = ({ item, change_card_status_socket }) => {
   const loader = useContext(LoaderContext);
   // console.log(loader);
   const getStatus = (status) => {
@@ -62,19 +63,33 @@ const MyItem = ({ item }) => {
   };
 
   const markProgress = () => {
-    loader.setLoaderText("marking as In-Progress..");
-    loader.setLoaderValue(!loader.loaderValue);
-    socket.emit("MarkAsProgress", { item_id: item.item_id });
+    change_card_status_socket(
+      item.item_id,
+      "MarkAsProgress",
+      "marking as In-Progress.."
+    );
+    // changed_socket_records();
+    // loader.setLoaderText("marking as In-Progress..");
+    // loader.setLoaderValue(!loader.loaderValue);
+    // socket.emit("MarkAsProgress", { item_id: item.item_id });
   };
   const markComplete = () => {
-    loader.setLoaderText("marking as Completed..");
-    loader.setLoaderValue(!loader.loaderValue);
-    socket.emit("MarkAsComplete", { item_id: item.item_id });
+    change_card_status_socket(
+      item.item_id,
+      "MarkAsComplete",
+      "marking as Completed.."
+    );
+    // changed_socket_records();
+    // loader.setLoaderText("marking as Completed..");
+    // loader.setLoaderValue(!loader.loaderValue);
+    // socket.emit("MarkAsComplete", { item_id: item.item_id });
   };
   const markDelete = () => {
-    loader.setLoaderText("Deleting..");
-    loader.setLoaderValue(!loader.loaderValue);
-    socket.emit("MarkAsDelete", { item_id: item.item_id });
+    change_card_status_socket(item.item_id, "MarkAsDelete", "Deleting..");
+    // changed_socket_records();
+    // loader.setLoaderText("Deleting..");
+    // loader.setLoaderValue(!loader.loaderValue);
+    // socket.emit("MarkAsDelete", { item_id: item.item_id });
   };
 
   let [text, title, fun] = [...getButtonText(item.status)];
@@ -119,4 +134,10 @@ const MyItem = ({ item }) => {
   );
 };
 
-export default MyItem;
+const mapStateToProps = (store) => {
+  return { loader: { ...store.loader } };
+};
+
+export default connect(mapStateToProps, {
+  change_card_status_socket,
+})(MyItem);
