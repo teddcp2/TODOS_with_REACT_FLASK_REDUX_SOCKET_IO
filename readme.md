@@ -19,6 +19,10 @@
 
 [link](https://github.com/teddcp2/TODOS_with_REACT_FLASK_REDUX_SOCKET_IO/blob/master/FLASK_REACT_REDUX_SOCKET-io.mp4)
 
+[![screenshot](http://img.youtube.com/vi/xSl22WxPR-Q/0.jpg)](http://www.youtube.com/watch?v=xSl22WxPR-Q)
+
+https://github.com/teddcp2/TODOS_with_REACT_FLASK_REDUX_SOCKET_IO/blob/master/Screenshot.png
+
 ### Some Pictures
 
 ![img](./Screenshot.png)
